@@ -1,5 +1,6 @@
-import { View, StyleSheet, Image, TextInput, Pressable } from 'react-native'
-import { Link } from "expo-router"
+import { useState } from 'react'
+import { Link, useRouter } from "expo-router"
+import { View, StyleSheet, Image, SafeAreaView, TextInput, Pressable, Text } from 'react-native'
 
 const user = {
     id: 't0',
@@ -12,21 +13,37 @@ const user = {
     },
 }
 export default function NewTweet(){
-    return (
-        <View style = {styles.container}>
-            <View style = {styles.buttonContainer}>
-                <Link href = '../' style = {{fontSize: 20}}>Cancel</Link>
+    const [text, setText] = useState("");
+    const router = useRouter();
 
+    const onTweetPress = () => {
+        console.log('Posting the tweet: ', text)
+
+        setText('')
+        router.back()
+    }
+    return (
+        <SafeAreaView style = {{flex: 1, backgroundColor: 'white'}}>
+            <View style = {styles.container}>
+                <View style = {styles.buttonContainer}>
+                    <Link href = '../' style = {{fontSize: 20}}>Cancel</Link>
+
+                    <Pressable onPress = {onTweetPress} style = {styles.button}>
+                        <Text style = {styles.buttonText}>Tweet</Text>
+                    </Pressable>
+                </View>
+                <View style = {styles.inputContainer}>
+                    <Image source = {{uri: user.user.image}} style={styles.image}></Image>
+                    <TextInput placeholder= "What's happening?"
+                        value = {text}
+                        multiline
+                        onChangeText = {setText}
+                        numberOfLines = {8}
+                        style = {{flex: 1}}
+                    />
+                </View>
             </View>
-            <View style = {styles.inputContainer}>
-                <Image source = {{uri: user.user.image}} style={styles.image}></Image>
-                <TextInput placeholder= "What's happening?"
-                multiline
-                numberOfLines = {8}
-                style = {{flex: 1}}
-                />
-            </View>
-        </View>
+        </SafeAreaView>
     );
 }
 
@@ -40,7 +57,6 @@ const styles = StyleSheet.create({
     },
     container: {
         padding: 10,
-        backgroundColor: 'white',
         flex: 1,
     },
     inputContainer: {
@@ -50,5 +66,18 @@ const styles = StyleSheet.create({
     buttonContainer: {
         flexDirection: 'row',
         marginVertical: 20,
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    },
+    button: {
+        backgroundColor: '#1c98F0',
+        padding: 10,
+        paddingHorizontal: 20,
+        borderRadius: 50,
+    },
+    buttonText: {
+        color: 'white',
+        fontWeight: 600,
+        fontSize: 16,
     }
 })
