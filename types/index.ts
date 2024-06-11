@@ -1,3 +1,6 @@
+import 'react-native-gesture-handler'
+import 'expo-router/entry'
+
 export type User = {
     id: string,
     name: string,
