@@ -7,6 +7,10 @@ import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
 
+export const unstable_settings = {
+  initialRouteName: 'two'
+}
+
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
@@ -26,6 +30,7 @@ function AvatarHeader(){
   )
 }
 
+
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
@@ -36,11 +41,13 @@ export default function TabLayout() {
         // Disable the static render of the header on web
         // to prevent a hydration error in React Navigation v6.
         headerShown: useClientOnlyValue(false, true),
-      }}>
+      }}
+      initialRouteName = "two"
+    >
       <Tabs.Screen
-        name="index"
+        name = "feed"
         options={{
-          title: 'Tab One',
+          title: 'Feed',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
           headerRight: () => (
             <Link href="/modal" asChild>
