@@ -26,14 +26,23 @@ router.post('/', async(req, res) => {
 
 // LIST Users
 router.get('/', async (req, res) => {
-    const allUsers = await prisma.user.findMany();
+    const allUsers = await prisma.user.findMany(
+        // {select: {
+        //     id: true,
+        //     name: true,
+        //     image: true,
+        //     bio: true,
+        // }}
+    );
     res.json(allUsers)
 })
 
 // GET one User
 router.get('/:id',async (req, res) => {
     const {id} = req.params
-    const user = await prisma.user.findUnique({ where: {id: Number(id)}})
+    const user = await prisma.user.findUnique({ where: {id: Number(id)},
+        include: {tweets: true}
+    })
 
     res.json(user)
 })
