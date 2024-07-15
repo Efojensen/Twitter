@@ -1,14 +1,38 @@
-import tweets from '../../../../assets/data/tweets'
-import { StyleSheet, View, FlatList, Pressable } from 'react-native';
+import { StyleSheet, View, FlatList, Pressable, ActivityIndicator, Text } from 'react-native';
 import TweetStructure from '../../../../components/Tweet_structure'
 import { Entypo } from '@expo/vector-icons';
-import { Link } from 'expo-router'
+import { Link } from 'expo-router';
+import { listTweets } from '@/lib/api/tweets';
+import { useQuery } from '@tanstack/react-query'
 
-export default function TabOneScreen() {
+export default function FeedScreen() {
+  const {data, isLoading, error } = useQuery({
+    queryKey: ['tweets'],
+    queryFn: listTweets
+  });
+
+  // const [tweets, setTweets] = useState();
+
+  // useEffect(() => {
+  //   const fetchTweets = async() => {
+  //     const res = await listTweets();
+  //     setTweets(res);
+  //   };
+
+  //   fetchTweets();
+  // }, []);
+  if (isLoading){
+    return <ActivityIndicator />
+  }
+
+  if (error){
+    return <Text>{error.message}</Text>
+  }
+
   return (
     <View style={styles.page}>
       <FlatList
-        data = {tweets}
+        data = {data}
         renderItem={({item}) => <TweetStructure tweet = {item}/>}
       />
       <Pressable>

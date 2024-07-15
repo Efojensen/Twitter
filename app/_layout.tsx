@@ -5,8 +5,10 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
-
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useColorScheme } from '@/components/useColorScheme';
+
+const client = new QueryClient()
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -49,6 +51,8 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
+    <QueryClientProvider client = { client }>
+
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Screen name="(drawer)" options={{ headerShown: false }} />
@@ -57,5 +61,6 @@ function RootLayoutNav() {
         <Stack.Screen name= 'new-tweet' options = {{title: 'New tweet', headerShown: false}}/>
       </Stack>
     </ThemeProvider>
+    </QueryClientProvider>
   );
 }
