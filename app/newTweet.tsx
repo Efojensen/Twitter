@@ -3,7 +3,7 @@ import { Link, useRouter } from "expo-router"
 import { View, StyleSheet, Image, SafeAreaView,
             TextInput, Pressable, Text, ActivityIndicator} from 'react-native'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { createTweet } from '@/lib/api/tweets';
+import { useTweetsApi } from '@/lib/api/tweets';
 
 const user = {
     id: 't0',
@@ -21,6 +21,7 @@ const user = {
 export default function NewTweet(){
     const [text, setText] = useState("");
     const router = useRouter();
+    const { createTweet } = useTweetsApi();
     const queryClient = useQueryClient();
 
     const {mutateAsync, isPending, isError, error } = useMutation({

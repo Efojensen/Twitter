@@ -2,10 +2,11 @@ import { StyleSheet, View, FlatList, Pressable, ActivityIndicator, Text } from '
 import TweetStructure from '../../../../components/Tweet_structure'
 import { Entypo } from '@expo/vector-icons';
 import { Link } from 'expo-router';
-import { listTweets } from '@/lib/api/tweets';
+import { useTweetsApi } from '@/lib/api/tweets';
 import { useQuery } from '@tanstack/react-query'
 
 export default function FeedScreen() {
+  const { listTweets } = useTweetsApi();
   const {data, isLoading, error } = useQuery({
     queryKey: ['tweets'],
     queryFn: listTweets
