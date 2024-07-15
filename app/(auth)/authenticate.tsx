@@ -2,10 +2,14 @@ import { View, Text, TextInput, Pressable, StyleSheet, Alert } from 'react-nativ
 import React, { useState } from 'react'
 import { useLocalSearchParams } from 'expo-router';
 import { authenticate } from '@/lib/api/auth';
+import { useAuth } from '@/context/authContext';
 
 const Authenticate = () => {
     const [code, setCode] = useState('');
     const { email } = useLocalSearchParams()
+
+    const { setAuthToken } = useAuth();
+
     const onConfirm = async () => {
         if (typeof email !== 'string'){
             return;
