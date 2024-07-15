@@ -59,6 +59,8 @@ function RootLayoutNav() {
         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
         {/* <Stack.Screen name="tweet/[id]" options = {{title: 'Tweet'}}/> */}
         <Stack.Screen name= 'newTweet' options = {{title: 'New tweet', headerShown: false}}/>
+        <Stack.Screen name= '(auth)/sign_in' options = {{headerShown: false}}/>
+        <Stack.Screen name= '(auth)/authenticate' options = {{title: 'Confirm'}}/>
       </Stack>
     </ThemeProvider>
     </QueryClientProvider>
