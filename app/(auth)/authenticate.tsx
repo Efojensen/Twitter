@@ -8,7 +8,7 @@ const Authenticate = () => {
     const [code, setCode] = useState('');
     const { email } = useLocalSearchParams()
 
-    const { setAuthToken } = useAuth();
+    const { updateAuthToken } = useAuth()
 
     const onConfirm = async () => {
         if (typeof email !== 'string'){
@@ -16,6 +16,7 @@ const Authenticate = () => {
         }
         try{
             const res = await authenticate({ email, emailToken: code })
+            await updateAuthToken(res.AuthToken)
         }catch (e){
             Alert.alert("Error ", "Email code doesn't match")
         }
