@@ -11,16 +11,6 @@ export default function FeedScreen() {
     queryFn: listTweets
   });
 
-  // const [tweets, setTweets] = useState();
-
-  // useEffect(() => {
-  //   const fetchTweets = async() => {
-  //     const res = await listTweets();
-  //     setTweets(res);
-  //   };
-
-  //   fetchTweets();
-  // }, []);
   if (isLoading){
     return <ActivityIndicator />
   }

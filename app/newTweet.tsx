@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import { Link, useRouter } from "expo-router"
-import { View, StyleSheet, Image, SafeAreaView, TextInput, Pressable, Text } from 'react-native'
+import { View, StyleSheet, Image, SafeAreaView,
+            TextInput, Pressable, Text, ActivityIndicator} from 'react-native'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { createTweet } from '@/lib/api/tweets';
 
 const user = {
     id: 't0',
@@ -12,21 +15,40 @@ const user = {
         'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/vadim.png',
     },
 }
+
+// Logic that calls the post method for a new tweet
+
 export default function NewTweet(){
     const [text, setText] = useState("");
     const router = useRouter();
+    const queryClient = useQueryClient();
 
-    const onTweetPress = () => {
-        console.log('Posting the tweet: ', text)
+    const {mutateAsync, isPending, isError, error } = useMutation({
+        mutationFn: createTweet,
+        onSuccess: (data) => {
+            // queryClient.invalidateQueries({ queryKey: ['tweets']})
+            queryClient.setQueriesData(['tweets'], (existingTweets) => {
+                return [data, ...existingTweets]
+            })
+        }
+    });
 
-        setText('')
-        router.back()
+    const onTweetPress = async() => {
+        try{
+            await mutateAsync({ content: text})
+            setText('')
+            router.back()
+        }catch (e){
+            console.log('Error: ', e.message);
+        }
+
     }
     return (
         <SafeAreaView style = {{flex: 1, backgroundColor: 'white'}}>
             <View style = {styles.container}>
                 <View style = {styles.buttonContainer}>
                     <Link href = '../' style = {{fontSize: 20}}>Cancel</Link>
+                    {isPending && <ActivityIndicator />}
 
                     <Pressable onPress = {onTweetPress} style = {styles.button}>
                         <Text style = {styles.buttonText}>Tweet</Text>
@@ -42,6 +64,7 @@ export default function NewTweet(){
                         style = {{flex: 1}}
                     />
                 </View>
+                {isError && <Text>Error: {error.message}</Text>}
             </View>
         </SafeAreaView>
     );
@@ -77,7 +100,5 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: 'white',
-        fontWeight: 600,
-        fontSize: 16,
     }
 })

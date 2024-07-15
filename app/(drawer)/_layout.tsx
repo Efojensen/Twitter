@@ -25,5 +25,5 @@ export default function DrawerLayout(){
             <Drawer.Screen name = 'bookmarks' options = {{title: 'Bookmarks'}} />
             <Drawer.Screen name = 'twitter-blue' options = {{title: 'Twitter Blue'}} />
         </Drawer>
-    )
+    );
 }
