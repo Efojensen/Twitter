@@ -6,6 +6,7 @@ const TweetsApiContext = createContext({})
 
 const TweetsApiContextProvider = ({ children }: PropsWithChildren) =>{
   const { authToken } = useAuth();
+  console.log(authToken)
 
   const listTweets = async () => {
 
